@@ -60,6 +60,12 @@ def index():
     return render_template('index.html', book_list=list(book_names))
 
 
+@app.route('/health')
+def health():
+    """Health check endpoint for monitoring"""
+    return {'status': 'healthy', 'books_loaded': len(book_names)}, 200
+
+
 @app.route('/recommend', methods=['POST'])
 def recommend():
     """Process book selection and display recommendations"""

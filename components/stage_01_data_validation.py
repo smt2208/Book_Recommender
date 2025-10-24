@@ -1,3 +1,8 @@
+"""
+Data Validation Component
+Validates data integrity, schema, and quality of loaded datasets
+"""
+
 import logging
 import pandas as pd
 from entity.config_entity import DataValidationConfig
@@ -7,23 +12,30 @@ logger = logging.getLogger(__name__)
 
 
 class DataValidation:
+    """Performs comprehensive validation checks on loaded datasets"""
+    
     def __init__(self, config: DataValidationConfig):
         self.config = config
 
     def validate_data(self, books: pd.DataFrame, users: pd.DataFrame, ratings: pd.DataFrame) -> bool:
-        """Validate the loaded datasets using Pydantic validation"""
+        """
+        Validate the loaded datasets for completeness and correctness
+        
+        Args:
+            books: Books DataFrame
+            users: Users DataFrame  
+            ratings: Ratings DataFrame
+            
+        Returns:
+            bool: True if validation passes
+        """
         try:
             logger.info("Starting data validation...")
             
-            # Validate dataframes are not empty
             self._validate_non_empty_dataframes(books, users, ratings)
-            
-            # Validate required columns
             self._validate_books_schema(books)
             self._validate_users_schema(users)
             self._validate_ratings_schema(ratings)
-            
-            # Validate data types and ranges
             self._validate_data_types_and_ranges(books, users, ratings)
             
             logger.info("Data validation successful!")

@@ -1,5 +1,11 @@
+"""
+Model Training Component
+Trains K-Nearest Neighbors model for collaborative filtering and saves artifacts
+"""
+
 import logging
-from typing import Literal
+import pandas as pd
+from typing import Tuple
 from scipy.sparse import csr_matrix
 from sklearn.neighbors import NearestNeighbors
 from entity.config_entity import ModelTrainerConfig
@@ -9,27 +15,34 @@ logger = logging.getLogger(__name__)
 
 
 class ModelTrainer:
+    """Trains and saves the recommendation model"""
+    
     def __init__(self, config: ModelTrainerConfig):
         self.config = config
 
-    def train_model(self, final_ratings, user_book_matrix):
-        """Train KNN model for collaborative filtering"""
+    def train_model(self, final_ratings: pd.DataFrame, user_book_matrix: pd.DataFrame) -> NearestNeighbors:
+        """
+        Train KNN model for item-based collaborative filtering
+        
+        Args:
+            final_ratings: Processed ratings DataFrame
+            user_book_matrix: User-book interaction matrix
+            
+        Returns:
+            Trained NearestNeighbors model
+        """
         try:
             logger.info("Starting model training...")
             
-            # Convert to sparse matrix
             logger.info("Converting to sparse matrix...")
             sparse_user_book_matrix = csr_matrix(user_book_matrix.values)
             
-            # Train KNN model
             logger.info(f"Training KNN model with algorithm: {self.config.algorithm}")
-            # Pydantic ensures algorithm is the correct type
             model = NearestNeighbors(algorithm=self.config.algorithm, metric='cosine')
             model.fit(sparse_user_book_matrix)
             
             logger.info("Model training completed!")
             
-            # Save model and artifacts
             logger.info("Saving model and artifacts...")
             save_pickle(model, self.config.model_path)
             save_pickle(user_book_matrix.index, self.config.book_names_path)

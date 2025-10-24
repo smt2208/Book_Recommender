@@ -1,3 +1,8 @@
+"""
+Main entry point for training the Book Recommender model
+Executes the complete ML pipeline from data ingestion to model training
+"""
+
 from logger import log
 from pipeline.training_pipeline import TrainingPipeline
 import logging

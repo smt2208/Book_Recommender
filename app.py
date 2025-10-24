@@ -1,10 +1,14 @@
+"""
+Book Recommender Flask Web Application
+Uses collaborative filtering to recommend similar books based on user ratings
+"""
+
 from flask import Flask, render_template, request
 import pickle
-import numpy as np
 
 app = Flask(__name__)
 
-# Load the saved model and data
+# Load pre-trained model and preprocessed data
 model = pickle.load(open('artifacts/model.pkl', 'rb'))
 book_names = pickle.load(open('artifacts/book_name.pkl', 'rb'))
 final_ratings = pickle.load(open('artifacts/final_ratings.pkl', 'rb'))
@@ -13,31 +17,25 @@ book_matrix = pickle.load(open('artifacts/book_matrix.pkl', 'rb'))
 
 def recommend_books(book_title, n_recommendations=5):
     """
-    Recommend books based on a given book title using collaborative filtering
+    Generate book recommendations using K-Nearest Neighbors collaborative filtering
     
-    Parameters:
-    -----------
-    book_title : str
-        Title of the book to base recommendations on
-    n_recommendations : int
-        Number of book recommendations to return
+    Args:
+        book_title (str): Title of the book to base recommendations on
+        n_recommendations (int): Number of recommendations to return (default: 5)
     
     Returns:
-    --------
-    list of tuples: (title, distance, image_url)
+        list: List of dictionaries containing recommended books with title, distance, and image URL
+        None: If book is not found in the dataset
     """
     try:
-        # Find the book's position in the matrix
         book_index = book_names.get_loc(book_title)
         
-        # Get similar books using KNN model
         distances, similar_indices = model.kneighbors(
             book_matrix.iloc[book_index, :].values.reshape(1, -1),
             n_neighbors=n_recommendations + 1
         )
         
         recommendations = []
-        # Skip first one as it's the input book itself
         for i in range(1, len(similar_indices.flatten())):
             idx = similar_indices.flatten()[i]
             recommended_title = book_matrix.index[idx]
@@ -58,13 +56,13 @@ def recommend_books(book_title, n_recommendations=5):
 
 @app.route('/')
 def index():
-    """Home page with book selection"""
+    """Render home page with book selection dropdown"""
     return render_template('index.html', book_list=list(book_names))
 
 
 @app.route('/recommend', methods=['POST'])
 def recommend():
-    """Recommendation page"""
+    """Process book selection and display recommendations"""
     selected_book = request.form.get('book')
     
     if not selected_book:

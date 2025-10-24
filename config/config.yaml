@@ -1,0 +1,24 @@
+artifacts_root: artifacts
+
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  books_file: notebooks/BX-Books.csv
+  users_file: notebooks/BX-Users.csv
+  ratings_file: notebooks/BX-Book-Ratings.csv
+
+data_validation:
+  root_dir: artifacts/data_validation
+  
+data_transformation:
+  root_dir: artifacts/data_transformation
+  min_user_ratings: 200
+  min_book_ratings: 50
+  
+model_trainer:
+  root_dir: artifacts/model_trainer
+  model_path: artifacts/model.pkl
+  book_names_path: artifacts/book_name.pkl
+  final_ratings_path: artifacts/final_ratings.pkl
+  book_matrix_path: artifacts/book_matrix.pkl
+  n_neighbors: 5
+  algorithm: brute

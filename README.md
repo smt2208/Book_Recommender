@@ -5,6 +5,13 @@ An intelligent book recommendation system built with collaborative filtering usi
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Flask](https://img.shields.io/badge/Flask-3.0.0-green.svg)](https://flask.palletsprojects.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-success.svg)](https://books-recommender-sscz.onrender.com/)
+
+## 🌐 Live Demo
+
+**Try it now:** [https://books-recommender-sscz.onrender.com/](https://books-recommender-sscz.onrender.com/)
+
+> 📝 Note: First load may take 30-60 seconds as the free-tier server spins up from sleep mode.
 
 ## 🎯 Project Overview
 
@@ -67,7 +74,16 @@ pip install -r requirements.txt
 
 ### Usage
 
-#### Option 1: Use Pre-trained Model
+#### Option 1: Use Live Deployment 🌐
+
+Visit the live application: **[https://books-recommender-sscz.onrender.com/](https://books-recommender-sscz.onrender.com/)**
+
+No installation required! Simply:
+1. Select a book from the dropdown
+2. Click "Recommend Books"
+3. Get 5 similar book recommendations instantly
+
+#### Option 2: Run Locally with Pre-trained Model
 
 If you have the pre-trained model files in the `artifacts/` directory:
 
@@ -77,7 +93,7 @@ python app.py
 
 Then open your browser and navigate to `http://localhost:5000`
 
-#### Option 2: Train from Scratch
+#### Option 3: Train from Scratch
 
 1. Ensure the CSV data files are in the `notebooks/` directory:
    - `BX-Books.csv`

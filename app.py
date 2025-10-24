@@ -1,6 +1,8 @@
 """
 Book Recommender Flask Web Application
 Uses collaborative filtering to recommend similar books based on user ratings
+
+Live Demo: https://books-recommender-sscz.onrender.com/
 """
 
 from flask import Flask, render_template, request

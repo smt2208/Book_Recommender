@@ -1,3 +1,5 @@
+# Book Recommender System - Render Deployment Configuration
+# Live URL: https://books-recommender-sscz.onrender.com/
 services:
   - type: web
     name: book-recommender
